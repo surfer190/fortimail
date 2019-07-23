@@ -6,7 +6,7 @@ from fortimail.utils import raise_for_error
 class FortiMailClient(object):
     
     def __init__(self, baseurl, username, password, session=None):
-        '''[summary]
+        '''Initialise the Fortimail client
         
         Arguments:
             baseurl {str} -- URL of the fortimail server
@@ -31,7 +31,7 @@ class FortiMailClient(object):
         self.password = password
         
         # remove slash
-        self.api_url = '{}/api/v1/'.format(self.baseurl)
+        self.api_url = '{}/api/v1'.format(self.baseurl)
         
         self.session.verify = False
         
@@ -41,7 +41,7 @@ class FortiMailClient(object):
         '''
         Login to the fortimail server and store the token
         '''
-        login_url = '{}AdminLogin/'.format(self.api_url)
+        login_url = '{}/AdminLogin/'.format(self.api_url)
         data = {'name': self.username, 'password': self.password}
         
         response = self.session.post(
@@ -60,5 +60,7 @@ class FortiMailClient(object):
         '''
         Get a list of all domains
         '''
-        domains = client.session.get('{}domain/'.format(url)) 
-        return domains.json()
+        response = self.session.get('{}/domain/'.format(self.api_url))
+        if response.status_code != 200:
+            raise_for_error(response.status_code, response.json())
+        return response.json()

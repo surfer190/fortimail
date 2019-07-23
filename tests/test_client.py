@@ -50,6 +50,22 @@ LOGIN_SUCCESS_RESPONSE = {
     'must_contain': 0
 }
 
+DOMAINS_SUCCESS_RESPONSE = {
+    'objectID': 'DomainInfoCollection:',
+    'reqAction': 1,
+    'totalRemoteCount': 4,
+    'subCount': 4,
+    'remoteSorting': True,
+    'nextPage': False,
+    'nodePermission': 3,
+    'collection': [
+        {'mkey': 'example.com', 'maindomain': 'chappy.net', 'is_association': True},
+        {'mkey': 'caprico.com', 'maindomain': 'chappy.net', 'is_association': True},
+        {'mkey': 'zypo.co.uk', 'maindomain': 'atn.org', 'is_association': False},
+        {'mkey': 'abc.example.net', 'maindomain': 'atn.org', 'is_association': False}
+    ]
+}
+
 class TestFortimailClient(object):
 
     @responses.activate
@@ -134,3 +150,26 @@ class TestFortimailClient(object):
     def test_no_username_raises_error(self):
         with pytest.raises(TypeError):
             client = FortiMailClient(baseurl=BASEURL, password=PASSWORD)
+
+    @responses.activate
+    def test_get_domains(self):
+        responses.add(
+            responses.POST,
+            'https://fortimail.example.com/api/v1/AdminLogin/',
+            json=LOGIN_SUCCESS_RESPONSE,
+            status=200
+        )
+        responses.add(
+            responses.GET,
+            'https://fortimail.example.com/api/v1/domain/',
+            json=DOMAINS_SUCCESS_RESPONSE,
+            status=200
+        )
+        
+        client = FortiMailClient(
+            baseurl=BASEURL, username=USERNAME, password=PASSWORD
+        )
+        
+        domains = client.get_domains()
+        
+        assert domains == DOMAINS_SUCCESS_RESPONSE
