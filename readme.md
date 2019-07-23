@@ -10,7 +10,7 @@ As per the [pytest best practices](https://docs.pytest.org/en/latest/goodpractic
 Create your environment
 
     python3.7 -m venv env
-    pip install -r requirements.txt
+    pip install -r requirements/dev.txt
     # Install the package in editable mode
     pip install -e .
 
@@ -18,6 +18,6 @@ this is similar to running: `python setup.py develop`
 
 ## Run Tests
 
-We use pytest, To run tests do: `pytest`
+We use pytest, To run tests do: `pytest -s`
 
 Soon to bring in tox - test automation - for different python versions

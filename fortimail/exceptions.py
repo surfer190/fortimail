@@ -19,8 +19,20 @@ class FortiMailError(Exception):
 class IllegalArgumentError(FortiMailError):
     '''
     Error raised when a function gets an illegal argument
-    
-    Arguments:
-        FortiMailError {Exception} -- The root exception
     '''
+    pass
+
+class ClientInitialisationError(FortiMailError):
+    '''
+    Error raised when the client is not initialised correctly
+    '''
+    pass
+
+class Forbidden(FortiMailError):
+    '''
+    Error raised when the client is forbidden
+    '''
+    pass
+
+class UnexpectedError(FortiMailError):
     pass
