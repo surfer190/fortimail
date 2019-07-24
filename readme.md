@@ -36,3 +36,21 @@ this is similar to running: `python setup.py develop`
 We use pytest, To run tests do: `pytest -s`
 
 Soon to bring in tox - test automation - for different python versions
+
+## Uploading to Pypi
+
+    pip install wheel twine
+
+Make sure to bump the version in `setup.py`
+
+Create the `dist` and `build` folders
+
+    python setup.py sdist bdist_wheel
+
+Upload to test pypi
+
+    twine upload --repository testpypi dist/*
+
+Upload to real pypi
+
+    twine upload --repository pypi dist/*

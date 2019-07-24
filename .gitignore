@@ -2,3 +2,5 @@ env/
 .vscode/
 *.egg-info/
 stuff/
+build/
+dist/
