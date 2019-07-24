@@ -34,5 +34,11 @@ class Forbidden(FortiMailError):
     '''
     pass
 
+class NotFound(FortiMailError):
+    '''
+    Error raised when the resource is not found or invalid path
+    '''
+    pass
+
 class UnexpectedError(FortiMailError):
     pass

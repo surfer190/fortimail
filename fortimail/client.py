@@ -64,3 +64,18 @@ class FortiMailClient(object):
         if response.status_code != 200:
             raise_for_error(response.status_code, response.json())
         return response.json()
+
+    def get_domain(self, domain_name):
+        '''
+        Get a single domain
+        
+        Arguments:
+            domain_name {str} -- fqn of the domain
+        '''
+        response = self.session.get('{url}/domain/{domain}'.format(
+            url=self.api_url,
+            domain=domain_name
+        ))
+        if response.status_code != 200:
+            raise_for_error(response.status_code, response.json())
+        return response.json()

@@ -6,7 +6,7 @@ def raise_for_error(status_code, message=None, errors=None):
     received back from Fortimail.
 
     Arguments:
-        status_code {int} -- Status code received in a response from Vault
+        status_code {int} -- Status code received in a response from Fortimail
     
     Keyword Arguments:
         message {str} -- Optional message to include in a resulting exception (default: {None})
@@ -15,8 +15,11 @@ def raise_for_error(status_code, message=None, errors=None):
     Raises:
         exceptions.Forbidden
         exceptions.UnexpectedError
+        exceptions.NotFound
     '''
     if status_code == 403:
         raise exceptions.Forbidden(message, errors=errors)
+    elif status_code == 404:
+        raise exceptions.NotFound(message, errors=errors)
     else:
         raise exceptions.UnexpectedError(message)
