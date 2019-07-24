@@ -59,10 +59,26 @@ DOMAINS_SUCCESS_RESPONSE = {
     'nextPage': False,
     'nodePermission': 3,
     'collection': [
-        {'mkey': 'example.com', 'maindomain': 'chappy.net', 'is_association': True},
-        {'mkey': 'caprico.com', 'maindomain': 'chappy.net', 'is_association': True},
-        {'mkey': 'zypo.co.uk', 'maindomain': 'atn.org', 'is_association': False},
-        {'mkey': 'abc.example.net', 'maindomain': 'atn.org', 'is_association': False}
+        {
+            'mkey': 'example.com',
+            'maindomain': 'chappy.net',
+            'is_association': True
+        },
+        {
+            'mkey': 'caprico.com',
+            'maindomain': 'chappy.net',
+            'is_association': True
+        },
+        {
+            'mkey': 'zypo.co.uk',
+            'maindomain': 'atn.org',
+            'is_association': False
+        },
+        {
+            'mkey': 'abc.example.net',
+            'maindomain': 'atn.org',
+            'is_association': False
+        }
     ]
 }
 
@@ -175,6 +191,7 @@ DOMAIN_NOT_FOUND_RESPONSE = {
     'errorMsg': 'Failed to retrieve object :Get object (DomainSetting) '
 }
 
+
 class TestFortimailClient(object):
 
     @responses.activate
@@ -274,13 +291,13 @@ class TestFortimailClient(object):
             json=DOMAINS_SUCCESS_RESPONSE,
             status=200
         )
-        
+
         client = FortiMailClient(
             baseurl=BASEURL, username=USERNAME, password=PASSWORD
         )
-        
+
         domains = client.get_domains()
-        
+
         assert domains == DOMAINS_SUCCESS_RESPONSE
 
     @responses.activate
@@ -297,19 +314,19 @@ class TestFortimailClient(object):
             json=DOMAIN_SUCCESS_RESPONSE,
             status=200
         )
-        
+
         client = FortiMailClient(
             baseurl=BASEURL, username=USERNAME, password=PASSWORD
         )
-        
+
         domain = client.get_domain('example.com')
-        
+
         assert domain == DOMAIN_SUCCESS_RESPONSE
 
     @responses.activate
     def test_get_domain_not_found(self):
         '''
-        Ensure a not found error is raised for 404 
+        Ensure a not found error is raised for 404
         '''
         responses.add(
             responses.POST,
@@ -323,10 +340,10 @@ class TestFortimailClient(object):
             json=DOMAIN_NOT_FOUND_RESPONSE,
             status=404
         )
-        
+
         client = FortiMailClient(
             baseurl=BASEURL, username=USERNAME, password=PASSWORD
         )
-        
+
         with pytest.raises(NotFound):
             domain = client.get_domain('test.com')
