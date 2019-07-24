@@ -2,6 +2,21 @@
 
 This package is used to communicate with the fortimail rest api
 
+## Install
+
+    pip install fortimail
+
+## Usage
+
+    from fortimail.client import FortiMailClient
+    
+    client = FortiMailClient(
+        baseurl='myfortimail.com',
+        username='hello',
+        password='world'
+    )
+    
+    domains = client.get_domains()
 
 ## Developing
 
